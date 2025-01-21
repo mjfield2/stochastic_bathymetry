@@ -1,0 +1,7 @@
+raw_data/
+processed_data/
+results/
+__pycache__/
+.DS_Store/
+.ipynb_checkpoints/
+._*
