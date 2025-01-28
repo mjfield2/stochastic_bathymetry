@@ -27,6 +27,7 @@ dependencies:
   - rioxarray
   - tqdm
   - gstools
+  - pypdf
   - pip:
       - gstatsim==1.0.6
   
