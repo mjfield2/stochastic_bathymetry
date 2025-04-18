@@ -1,4 +1,4 @@
-# StochBath Version 1.0
+# GravMCMC Version 1.0
 
 ## Stochastic inversion of sub-ice-shelf bathymetry using airborne gravity data
 
