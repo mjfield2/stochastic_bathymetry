@@ -105,7 +105,7 @@ if __name__ == '__main__':
             param_list.append([ds, grav, dens_cache[i]])
     
         with mp.Pool(nproc) as pool:
-            result = pool.starmap(nte_correction_sgs, param_list)
+            result = pool.starmap(boug_interpolation_sgs, param_list)
             te_dist_cache = np.array(result)
     else:
         for i in range(n_densities):
@@ -120,6 +120,12 @@ if __name__ == '__main__':
     input_params = []
     # create input parameters to chain_sequence
     for i in range(n_densities):
+        
+        # spawn new random number generator
+        new_seq = SeedSequence()
+        entropies.append(new_seq.entropy)
+        rng_i = np.random.default_rng(PCG64(new_seq))
+        
         # initial pertubation away from BedMachine
         x0 = ds.bed.data + rfgen.generate_field(condition=True)
         x0 = np.where(x0>ds.surface-ds.thickness, ds.surface-ds.thickness, x0)
@@ -129,10 +135,6 @@ if __name__ == '__main__':
             'water' : 1027,
             'rock' : dens_cache[i]
         }
-        # spawn new random number generator
-        new_seq = SeedSequence()
-        entropies.append(new_seq.entropy)
-        rng_i = np.random.default_rng(PCG64(new_seq))
         
         # gravity prediction locations
         pred_coords = (grav_mskd.x.values, grav_mskd.y.values, grav_mskd.height.values)

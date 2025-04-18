@@ -150,23 +150,23 @@ if __name__ == '__main__':
     # save ensemble with conditioning and density
     print('upscaling beds cd')
     save_upscale(ds, grid, preds_msk,
-                 base_path/'cond_dens',
-                 base_path/'cond_dens_geoid_2000.nc',
-                 base_path/'cond_dens_geoid_500.nc')
+                 base_path/'dens',
+                 base_path/'dens_geoid_2000.nc',
+                 base_path/'dens_geoid_500.nc')
 
     # save ensemble with conditioning and no density
     print('upscaling beds cnd')
     save_upscale(ds, grid, preds_msk,
-                 base_path/'cond_nodens',
-                 base_path/'cond_nodens_geoid_2000.nc',
-                 base_path/'cond_nodens_geoid_500.nc')
+                 base_path/'nodens',
+                 base_path/'nodens_geoid_2000.nc',
+                 base_path/'nodens_geoid_500.nc')
 
     # save ensemble with conditioning and no deteministic bouger
     print('upscaling beds c determ')
     save_upscale(ds, grid, preds_msk,
-                 base_path/'cond_deterministic',
-                 base_path/'cond_determ_geoid_2000.nc',
-                 base_path/'cond_determ_geoid_500.nc')
+                 base_path/'krige',
+                 base_path/'krige_geoid_2000.nc',
+                 base_path/'krige_geoid_500.nc')
 
     # # save ensemble with no conditioning and density
     # print('upscaling beds ucd')

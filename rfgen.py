@@ -3,7 +3,7 @@ import numpy as np
 from scipy import interpolate
 
 class RFGen:
-    def __init__(self, ds, range_max, range_min, high_step, nug_max, eps, model='Gaussian', const_var=False, neighbors=None, seed=None, rbf=True):
+    def __init__(self, ds, range_max, range_min, high_step, nug_max, eps, model='Gaussian', const_var=False, neighbors=None, rng=None, rbf=True):
         
         y = ds.y.data
         x = ds.x.data
@@ -27,7 +27,6 @@ class RFGen:
         self.nug_max = nug_max
         self.eps = eps
         self.neighbors = neighbors
-        self.seed = seed
         self.cond_edges = None
         self.dist_weights = None
         self.rbf = rbf
@@ -37,6 +36,11 @@ class RFGen:
             self.model = gs.Gaussian
         elif model=='Exponential':
             self.model = gs.Exponential
+
+        if rng is None:
+            self.rng = np.random.default_rng()
+        else:
+            self.rng = rng
 
         self.get_cond_edges()
         
@@ -73,24 +77,23 @@ class RFGen:
         self.dist_weights = rescale
             
         
-    def generate_field(self, condition=False):
+    def generate_field(self, condition=False, seed=None):
         # random parameters
-        rng = np.random.default_rng()
         if self.const_var==False:
-            scale  = rng.uniform(low=1, high=self.high_step, size=1)[0]/2
+            scale  = self.rng.uniform(low=1, high=self.high_step, size=1)[0]/2
         else:
             scale = self.high_step/2
-        nug = rng.uniform(low=0.0, high=self.nug_max, size=1)[0]
-        range1 = rng.uniform(low=self.range_min[0], high=self.range_max[0], size=1)[0]
-        range2 = rng.uniform(low=self.range_min[1], high=self.range_max[1], size=1)[0]
-        angle = rng.uniform(low=0, high=180, size=1)[0]
+        nug = self.rng.uniform(low=0.0, high=self.nug_max, size=1)[0]
+        range1 = self.rng.uniform(low=self.range_min[0], high=self.range_max[0], size=1)[0]
+        range2 = self.rng.uniform(low=self.range_min[1], high=self.range_max[1], size=1)[0]
+        angle = self.rng.uniform(low=0, high=180, size=1)[0]
         model = self.model(dim=2,
                             var = self.var,
                             len_scale = [range1/np.sqrt(3),range2/np.sqrt(3)],
                             angles = angle*np.pi/180,
                             nugget = nug)
-        if self.seed is not None:
-            srf = gs.SRF(model,seed=self.seed)
+        if seed is not None:
+            srf = gs.SRF(model,seed=seed)
         else: 
             srf = gs.SRF(model)
 
