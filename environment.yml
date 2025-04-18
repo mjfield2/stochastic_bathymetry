@@ -29,5 +29,5 @@ dependencies:
   - gstools
   - pypdf
   - pip:
-      - gstatsim==1.0.6
+      - gstatsim==1.1.2
   
