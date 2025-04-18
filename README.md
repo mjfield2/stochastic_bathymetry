@@ -1,3 +1,5 @@
+# StochBath Version 1.0
+
 ## Stochastic inversion of sub-ice-shelf bathymetry using airborne gravity data
 
 Authors: Michael Field, Emma (Mickey) MacKie, Lijing Wang, Atsuhiro Muto, Niya Shao
