@@ -112,26 +112,6 @@ def boug_interpolation_sgs(ds, grav, density, maxlag=100e3, n_lags=70, covmodel=
     if trend==True:
         boug_trend = rbf_trend(ds, grav, residual, smoothing=smoothing, full_grid=False)
         residual -= boug_trend
-    
-    # X = np.stack([grav.x[grav.inv_msk==False], grav.y[grav.inv_msk==False]]).T
-    # y = residual[grav.inv_msk==False]
-    # XX = np.stack([grav.x, grav.y]).T
-    
-    # df_grid = pd.DataFrame({'X' : X[:,0], 'Y' : X[:,1], 'residual' : y})
-    
-    # # normal score transformation
-    # data = df_grid['residual'].values.reshape(-1,1)
-    # nst_trans = QuantileTransformer(n_quantiles=500, output_distribution="normal").fit(data)
-    # df_grid['NormZ'] = nst_trans.transform(data) 
-
-    # # compute experimental (isotropic) variogram
-    # coords = df_grid[['X','Y']].values
-    # values = df_grid['NormZ']
-    
-    # V3 = skg.Variogram(coords, values, bin_func='even', n_lags=n_lags, 
-    #                maxlag=maxlag, normalize=False)
-    
-    # V3.model = covmodel
 
     vgrams, df_grid, experimental, bins, nst_trans = variograms(grav, residual, bin_func='even', maxlag=maxlag, n_lags=n_lags, covmodels=[covmodel])
     parameters = vgrams[covmodel]
