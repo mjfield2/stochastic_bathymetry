@@ -23,12 +23,8 @@ from block_update import *
 os.environ['KMP_WARNINGS'] = 'FALSE'
 
 parser = argparse.ArgumentParser(description='Run bathymetry inversions with SGS interpolation')
-# parser.add_argument('-p', '--path', required=True, help='path to results')
-# parser.add_argument('-c', '--condition', action='store_true', default=False, help='condition on edges')
-# parser.add_argument('-d', '--density', action='store_true', default=False, help='vary the density of rock')
 parser.add_argument('-n', '--ninvs', default=100, type=int, help='number of inversions')
 parser.add_argument('-f', '--filt', action='store_true', default=False, help='filter SGS')
-# parser.add_argument('-s', '--stop', default=2.5, type=float, help='RMSE stopping criterion')
 
 args = parser.parse_args()
 
